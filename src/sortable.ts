@@ -5,6 +5,7 @@ import * as Sortable from "sortablejs";
 export class SortableCustomAttribute {
 
   private sortable;
+  private eventsAttached = false;
 
   constructor(private element: Element) { }
 
@@ -28,6 +29,10 @@ export class SortableCustomAttribute {
   }
 
   private attachListeners() {
+    if (this.eventsAttached) {
+      return;
+    }
+
     Sortable.utils.on(this.element, "add", event => this.dispatch("sortable-add", event));
     Sortable.utils.on(this.element, "choose", event => this.dispatch("sortable-choose", event));
     Sortable.utils.on(this.element, "end", event => this.dispatch("sortable-end", event));
@@ -37,6 +42,8 @@ export class SortableCustomAttribute {
     Sortable.utils.on(this.element, "sort", event => this.dispatch("sortable-sort", event));
     Sortable.utils.on(this.element, "start", event => this.dispatch("sortable-start", event));
     Sortable.utils.on(this.element, "update", event => this.dispatch("sortable-update", event));
+
+    this.eventsAttached = true;
   }
 
   private  dispatch(name, data) {

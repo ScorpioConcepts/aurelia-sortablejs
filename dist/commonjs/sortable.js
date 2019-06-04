@@ -8,11 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var Sortable = require("sortablejs");
 var SortableCustomAttribute = (function () {
     function SortableCustomAttribute(element) {
         this.element = element;
+        this.eventsAttached = false;
     }
     SortableCustomAttribute.prototype.detached = function () {
         this.sortable.destroy();
@@ -31,6 +33,9 @@ var SortableCustomAttribute = (function () {
     };
     SortableCustomAttribute.prototype.attachListeners = function () {
         var _this = this;
+        if (this.eventsAttached) {
+            return;
+        }
         Sortable.utils.on(this.element, "add", function (event) { return _this.dispatch("sortable-add", event); });
         Sortable.utils.on(this.element, "choose", function (event) { return _this.dispatch("sortable-choose", event); });
         Sortable.utils.on(this.element, "end", function (event) { return _this.dispatch("sortable-end", event); });
@@ -40,6 +45,7 @@ var SortableCustomAttribute = (function () {
         Sortable.utils.on(this.element, "sort", function (event) { return _this.dispatch("sortable-sort", event); });
         Sortable.utils.on(this.element, "start", function (event) { return _this.dispatch("sortable-start", event); });
         Sortable.utils.on(this.element, "update", function (event) { return _this.dispatch("sortable-update", event); });
+        this.eventsAttached = true;
     };
     SortableCustomAttribute.prototype.dispatch = function (name, data) {
         this.element.dispatchEvent(new CustomEvent(name, {
@@ -48,8 +54,8 @@ var SortableCustomAttribute = (function () {
         }));
     };
     SortableCustomAttribute = __decorate([
-        aurelia_framework_1.inject(Element), 
-        __metadata('design:paramtypes', [Element])
+        aurelia_framework_1.inject(Element),
+        __metadata("design:paramtypes", [Element])
     ], SortableCustomAttribute);
     return SortableCustomAttribute;
 }());

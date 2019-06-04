@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./sortable");
 function configure(config) {
     config.globalResources("./sortable");
 }
